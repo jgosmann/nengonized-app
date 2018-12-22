@@ -221,6 +221,7 @@ module.exports = {
               ),
               
               plugins: [
+                'relay',
                 [
                   require.resolve('babel-plugin-named-asset-import'),
                   {

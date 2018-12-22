@@ -1,28 +1,41 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
+import React, { Component, Fragment } from 'react';
 import './App.css';
+import Connector from './Connector';
+import { graphql, QueryRenderer } from 'react-relay';
+import environment from './relay-env';
+
 
 class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
-  }
+    constructor() {
+        super();
+        this.state = {ws: false}
+    }
+
+    renderApp() {
+        return (
+            <QueryRenderer
+                environment={environment}
+                query={graphql`query AppQuery { model { ensembles { label } } }`}
+                variables={{}}
+                render={({error, props}) => {
+                    console.log(props)
+                    return props ? (
+                        <ul>
+                            {props.model.ensembles.map(ens => {return <li>{ens.label}</li>})}
+                        </ul>
+                    ) : <p>null</p>
+                }} />
+        );
+    }
+
+    render() {
+        return (
+            <Fragment>
+                {this.state.ws ? this.renderApp() : <Connector onWs={v => this.setState({ws: v})} />}
+                <p>Ws: {this.state.ws}</p>
+            </Fragment>
+        );
+    }
 }
 
 export default App;
