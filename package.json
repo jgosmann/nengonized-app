@@ -57,11 +57,22 @@
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
-    "test": "node scripts/test.js",
-    "relay": "relay-compiler --src ./src --schema ./schema.json"
+    "eslint": "npx eslint ./src",
+    "relay": "relay-compiler --src ./src --schema ./schema.json",
+    "test": "node scripts/test.js"
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": ["eslint:recommended", "react-app"],
+    "rules": {
+      "brace-style": ["warn", "1tbs"],
+      "curly": ["warn", "all"],
+      "eqeqeq": ["warn", "smart"],
+      "eol-last": "warn",
+      "indent": ["warn", 2],
+      "max-len": ["warn", {"ignoreComments": false, "ignoreUrls": true}],
+      "quotes": ["warn", "single"],
+      "semi": ["warn", "never"]
+    }
   },
   "browserslist": [
     ">0.2%",
