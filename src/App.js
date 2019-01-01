@@ -1,11 +1,12 @@
 import React, { PureComponent } from 'react'
 import Netgraph from './Netgraph'
 import { query_ws, subscription_ws } from './relay-env'
-import './App.css'
+//import './App.css'
 
 
 class App extends PureComponent {
   constructor() {
+    {
     super()
     query_ws.onopen = () => this.setState({ query_connection: true })
     query_ws.onclose = () => this.setState({ query_connection: false })
