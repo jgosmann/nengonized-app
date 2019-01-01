@@ -5,7 +5,7 @@ import { hasWs, setWs } from './relay-env'
 class Connector extends Component {
   constructor(props) {
     super(props)
-    this.state = {value: 'ws://localhost:'}
+    this.state = {value: 'ws://localhost:8998/subscription'}
     this.ws_input = React.createRef()
   }
 

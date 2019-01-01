@@ -5,6 +5,7 @@
   "dependencies": {
     "@babel/core": "7.1.0",
     "@svgr/webpack": "2.4.1",
+    "aphrodite": "^2.2.3",
     "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "9.0.0",
     "babel-jest": "23.6.0",
@@ -62,16 +63,44 @@
     "test": "node scripts/test.js"
   },
   "eslintConfig": {
-    "extends": ["eslint:recommended", "react-app"],
+    "extends": [
+      "eslint:recommended",
+      "react-app"
+    ],
     "rules": {
-      "brace-style": ["warn", "1tbs"],
-      "curly": ["warn", "all"],
-      "eqeqeq": ["warn", "smart"],
+      "brace-style": [
+        "warn",
+        "1tbs"
+      ],
+      "curly": [
+        "warn",
+        "all"
+      ],
+      "eqeqeq": [
+        "warn",
+        "smart"
+      ],
       "eol-last": "warn",
-      "indent": ["warn", 2],
-      "max-len": ["warn", {"ignoreComments": false, "ignoreUrls": true}],
-      "quotes": ["warn", "single"],
-      "semi": ["warn", "never"]
+      "indent": [
+        "warn",
+        2
+      ],
+      "max-len": [
+        "warn",
+        {
+          "ignoreComments": false,
+          "ignoreUrls": true
+        }
+      ],
+      "no-console": "warn",
+      "quotes": [
+        "warn",
+        "single"
+      ],
+      "semi": [
+        "warn",
+        "never"
+      ]
     }
   },
   "browserslist": [
