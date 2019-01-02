@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "node scripts/start.js",
-    "relay": "relay-compiler --src ./src --schema ./schema.json --extensions ts tsx js"
+    "relay": "relay-compiler --src ./src --schema ./schema.json --extensions ts tsx js",
+    "tslint": "tslint src/**/*.tsx"
   },
   "babel": {
     "presets": [
@@ -37,6 +38,7 @@
     "html-webpack-plugin": "4.0.0-alpha.2",
     "react-dev-utils": "^7.0.0",
     "relay-compiler": "^1.7.0",
+    "tslint": "^5.12.0",
     "typescript": "^3.2.2",
     "webpack": "^4.28.3",
     "webpack-cli": "^3.1.2",

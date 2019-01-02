@@ -1,0 +1,38 @@
+{
+  "defaultSeverity": "error",
+  "extends": [
+      "tslint:recommended"
+  ],
+  "jsRules": {},
+  "rules": {
+    "curly": true,
+    "no-console": true,
+    "no-debugger": true,
+    "no-duplicate-super": true,
+    "quotemark": false,
+    "prefer-object-spread": true,
+    "triple-equals": [true, "allow-null-check"],
+    "eofline": true,
+    "indent": [true, "spaces", 2],
+    "max-line-length": [true, 80],
+    "array-type": [true, "array"],
+    "encoding": true,
+    "no-trailing-whitespace": true,
+    "semicolon": [true, "never"],
+    "whitespace": [
+      true,
+      "check-branch",
+      "check-decl",
+      "check-operator",
+      "check-module",
+      "check-separator",
+      "check-rest-spread",
+      "check-type",
+      "check-typecast",
+      "check-type-operator",
+      "check-preblock",
+      "check-postblock"
+    ]
+  },
+  "rulesDirectory": []
+}
