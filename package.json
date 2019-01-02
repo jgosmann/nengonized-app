@@ -5,6 +5,7 @@
   "scripts": {
     "start": "node scripts/start.js",
     "relay": "relay-compiler --src ./src --schema ./schema.json --extensions ts tsx js",
+    "test": "node scripts/test.js",
     "tslint": "tslint src/**/*.tsx"
   },
   "babel": {
@@ -30,14 +31,19 @@
     "@babel/preset-env": "^7.2.3",
     "@babel/preset-react": "^7.0.0",
     "@babel/preset-typescript": "^7.1.0",
+    "@types/jest": "^23.3.11",
     "awesome-typescript-loader": "^5.2.1",
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-jest": "^23.6.0",
     "babel-loader": "^8.0.4",
     "babel-plugin-relay": "^1.7.0",
     "case-sensitive-paths-webpack-plugin": "^2.1.2",
     "graphql": "^0.13.2",
     "html-webpack-plugin": "4.0.0-alpha.2",
+    "jest": "^23.6.0",
     "react-dev-utils": "^7.0.0",
     "relay-compiler": "^1.7.0",
+    "ts-jest": "^23.10.5",
     "tslint": "^5.12.0",
     "typescript": "^3.2.2",
     "webpack": "^4.28.3",

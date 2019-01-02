@@ -13,7 +13,8 @@
     "lib": ["es7", "dom"],
     "noImplicitAny": true,
     "noEmitOnError": true,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "alwaysStrict": true
   },
   "include": ["./src/**/*"],
   "exclude": ["node_modules"]
