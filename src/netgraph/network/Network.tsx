@@ -2,12 +2,18 @@ import React, { PureComponent } from 'react'
 import NetworkCollapsed from './NetworkCollapsed'
 import NetworkExpanded from './NetworkExpanded'
 
+interface INetworkProps {
+  id: string
+}
 
-class Network extends PureComponent {
-  constructor() {
-    super()
-    this.state = { collapsed: true }
-  }
+type State = typeof initialState
+
+const initialState = {
+  collapsed: true,
+}
+
+class Network extends PureComponent<INetworkProps, State> {
+  state = initialState
 
   collapse() {
     this.setState({ collapsed: true })
@@ -25,7 +31,7 @@ class Network extends PureComponent {
     }
   }
 
-  click(e) {
+  click() {
     this.toggleCollapsed()
   }
 

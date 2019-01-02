@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react'
-import { graphql, QueryRenderer } from 'react-relay'
-import environment  from './relay-env'
-import Ensemble from './Ensemble'
-
+import { graphql, QueryRenderer, ReadyState } from 'react-relay'
+import environment from '../../relay-env'
+import { IKernel, INengoNetwork } from '../../types'
+import Ensemble from '../Ensemble'
 
 const query = graphql`
   subscription NetworkExpandedSubscription($id: ID!) {
@@ -18,7 +18,13 @@ const query = graphql`
   }
 `
 
-class NetworkExpanded extends PureComponent {
+interface INetworkExpandedProps {
+  id: string
+  label?: string
+  kernel?: IKernel<INengoNetwork>
+}
+
+class NetworkExpanded extends PureComponent<INetworkExpandedProps, {}> {
   render() {
     const { id } = this.props
     return (
@@ -30,8 +36,8 @@ class NetworkExpanded extends PureComponent {
     )
   }
 
-  renderNetworkExpanded({error, props}) {
-    if (!props) {
+  renderNetworkExpanded({props}: ReadyState<INetworkExpandedProps>) {
+    if (!props || !props.kernel) {
       return <text x='10' y='50' textAnchor='middle'>Loading sub</text>
     }
 
@@ -40,7 +46,7 @@ class NetworkExpanded extends PureComponent {
       <g>
         {
           (net.ensembles
-            ? net.ensembles.map(ens => <Ensemble obj={ens} key={ens.id} />)
+            ? net.ensembles.map((ens) => <Ensemble obj={ens} key={ens.id} />)
             : <text x='10' y='50' textAnchor='middle'>Subload</text>)
         }
         <text x='10' y='100' textAnchor='middle'>{net.label}</text>

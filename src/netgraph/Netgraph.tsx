@@ -1,48 +1,55 @@
+import { css, StyleSheet } from 'aphrodite/no-important'
 import React, { PureComponent } from 'react'
-import { graphql, QueryRenderer } from 'react-relay'
-import environment from './relay-env.js'
-import { StyleSheet, css } from 'aphrodite/no-important'
+import { graphql, QueryRenderer, ReadyState } from 'react-relay'
+import environment from '../relay-env.js'
+import { IKernel, IRelayNode } from '../types'
 import Ensemble from './Ensemble'
-import Network from './Network'
+import Network from './network/Network'
 
+type SvgMouseEvent = React.MouseEvent<SVGSVGElement, MouseEvent>
 
-class Netgraph extends PureComponent {
-  constructor() {
-    super()
-    this.state = {
-      transform: [1, 0, 0, 1, 0, 0]
-    }
-    this._drag_start = null
-  }
+interface INetgraphProps {
+  kernel?: IKernel<IRelayNode>
+}
 
-  dragStart(e) {
+type State = typeof initialState
+
+const initialState = {
+  transform: [1, 0, 0, 1, 0, 0],
+}
+
+class Netgraph extends PureComponent<INetgraphProps, State> {
+  state = initialState
+  private dragStartCoordinates: number[] | null = null
+
+  dragStart(e: SvgMouseEvent) {
     const { transform } = this.state
-    this._drag_start_coordinates = [
+    this.dragStartCoordinates = [
       e.screenX - transform[4], e.screenY - transform[5]]
   }
 
-  drag(e) {
-    if (!this._drag_start_coordinates) {
+  drag(e: SvgMouseEvent) {
+    if (!this.dragStartCoordinates) {
       return
     }
 
-    const _drag_start_coordinates = this._drag_start_coordinates
+    const dragStartCoordinates = this.dragStartCoordinates
     const { screenX, screenY } = e
 
-    this.setState(state => {
+    this.setState((state) => {
       const { transform } = state
       return {
         transform: [
           transform[0], transform[1], transform[2], transform[3],
-          screenX - _drag_start_coordinates[0],
-          screenY - _drag_start_coordinates[1],
-        ]
+          screenX - dragStartCoordinates[0],
+          screenY - dragStartCoordinates[1],
+        ],
       }
     })
   }
 
-  dragEnd(e) {
-    this._drag_start_coordinates = null
+  dragEnd() {
+    this.dragStartCoordinates = null
   }
 
   render() {
@@ -60,8 +67,8 @@ class Netgraph extends PureComponent {
     )
   }
 
-  renderNetgraph({error, props}) {
-    if (!props) {
+  renderNetgraph({props}: ReadyState<INetgraphProps>) {
+    if (!props || !props.kernel) {
       // TODO spinner or something
       return <div>Loading...</div>
     }
@@ -77,20 +84,19 @@ class Netgraph extends PureComponent {
         <g style={{
           transform: `matrix(${transform.join(',')})`,
         }}>
-          {ensembles.map(ens => <Ensemble obj={ens} key={ens.id} />)}
-          {networks.map(net => <Network id={net.id} key={net.id} />)}
+          {ensembles.map((ens) => <Ensemble obj={ens} key={ens.id} />)}
+          {networks.map((net) => <Network id={net.id} key={net.id} />)}
         </g>
       </svg>
     )
   }
 }
 
-
 const styles = StyleSheet.create({
   svg: {
-    width: '100%',
     height: '100%',
-  }
+    width: '100%',
+  },
 })
 
 export default Netgraph

@@ -1,18 +1,21 @@
 import React, { PureComponent } from 'react'
-import Netgraph from './Netgraph'
+import Netgraph from './netgraph/Netgraph'
 import { query_ws, subscription_ws } from './relay-env'
 
+interface IAppState {
+    query_connection: number,
+    subscription_connection: number
+}
 
-class App extends PureComponent {
-  constructor() {
-    {
-    super()
-    query_ws.onopen = () => this.setState({ query_connection: true })
-    query_ws.onclose = () => this.setState({ query_connection: false })
+class App extends PureComponent<{}, IAppState> {
+  constructor(props: Readonly<{}>) {
+    super(props)
+    query_ws.onopen = () => this.setState({ query_connection: 1 })
+    query_ws.onclose = () => this.setState({ query_connection: 0 })
     subscription_ws.onopen = () => this.setState(
-      { subscription_connection: true })
+      { subscription_connection: 1 })
     subscription_ws.onclose = () => this.setState(
-      { subscription_connection: false })
+      { subscription_connection: 0 })
     this.state = {
       query_connection: query_ws.readyState,
       subscription_connection: subscription_ws.readyState,

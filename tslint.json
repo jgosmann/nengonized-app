@@ -32,7 +32,9 @@
       "check-type-operator",
       "check-preblock",
       "check-postblock"
-    ]
+    ],
+    "member-access": [true, "no-public"],
+    "no-empty-interface": false
   },
   "rulesDirectory": []
 }
