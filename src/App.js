@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react'
 import Netgraph from './Netgraph'
 import { query_ws, subscription_ws } from './relay-env'
-//import './App.css'
 
 
 class App extends PureComponent {
