@@ -34,7 +34,9 @@
       "check-postblock"
     ],
     "member-access": [true, "no-public"],
-    "no-empty-interface": false
+    "no-empty-interface": false,
+    "only-arrow-functions": false,
+    "variable-name": false
   },
   "rulesDirectory": []
 }

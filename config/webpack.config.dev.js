@@ -46,7 +46,7 @@ module.exports = {
       {
         test: /\.(ts|tsx|js|jsx)$/,
         exclude: paths.appNodeModules,
-        use: ['babel-loader', 'awesome-typescript-loader'],
+        use: ['babel-loader'],
       }
     ]
   },

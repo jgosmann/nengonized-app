@@ -6,9 +6,13 @@ import {
 } from 'relay-runtime'
 
 
-const query_ws = new WebSocket('ws://localhost:8998/graphql')
-const subscription_ws = new WebSocket('ws://localhost:8998/subscription')
+let query_ws = null
+let subscription_ws = null
 
+function init() {
+  query_ws = new WebSocket('ws://localhost:8998/graphql')
+  subscription_ws = new WebSocket('ws://localhost:8998/subscription')
+}
 
 // FIXME this should be converted to pure HTTP or handle out of order responses
 function fetchQuery(operation, variables) {
@@ -55,5 +59,5 @@ const environment = new Environment({
   store: store,
 })
 
-export { query_ws, store, subscription_ws }
+export { init, query_ws, store, subscription_ws }
 export default environment

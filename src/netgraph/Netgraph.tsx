@@ -1,7 +1,7 @@
 import { css, StyleSheet } from 'aphrodite/no-important'
 import React, { PureComponent } from 'react'
 import { graphql, QueryRenderer, ReadyState } from 'react-relay'
-import environment from '../relay-env.js'
+import environment from '../relay-env'
 import { IKernel, IRelayNode } from '../types'
 import Ensemble from './Ensemble'
 import Network from './network/Network'

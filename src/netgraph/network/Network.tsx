@@ -39,8 +39,9 @@ class Network extends PureComponent<INetworkProps, State> {
     return (
       <g onClick={this.click.bind(this)}>{
         this.state.collapsed
-          ? <NetworkCollapsed />
-          : <NetworkExpanded id={this.props.id} />
+          ? <NetworkCollapsed x={0} y={0} width={100} height={100} />
+          : <NetworkExpanded
+            id={this.props.id} x={0} y={0} width={100} height={100} />
       }</g>
     )
   }
