@@ -1,7 +1,7 @@
 import { css } from 'aphrodite'
 import React, { PureComponent } from 'react'
+import styles from '../styles'
 import NetworkContents from './NetworkContents'
-import styles from './styles'
 
 interface INetworkExpandedProps {
   id: string
@@ -14,12 +14,13 @@ interface INetworkExpandedProps {
 class NetworkExpanded extends PureComponent<INetworkExpandedProps, {}> {
   render() {
     const { id, x, y, width, height } = this.props
+    const bounds = { x, y, width, height }
     return (
       <g>
         <rect
-          className={css(styles.rect)}
-          x={x} y={y} width={width} height={height} />
-        <NetworkContents id={id} />
+          className={css(styles.shape)}
+          {...bounds} />
+        <NetworkContents id={id} {...bounds} />
       </g>
     )
   }

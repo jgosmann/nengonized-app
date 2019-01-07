@@ -47,6 +47,15 @@ module.exports = {
         test: /\.(ts|tsx|js|jsx)$/,
         exclude: paths.appNodeModules,
         use: ['babel-loader'],
+      }, {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader'],
+      }, {
+        test: /\.(woff|woff2)$/,
+        use: ['url-loader'],
+      }, {
+        test: /\.(ttf|eot|svg)$/,
+        use: ['file-loader'],
       }
     ]
   },

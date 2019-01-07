@@ -1,6 +1,6 @@
 import { css } from 'aphrodite'
 import React, { PureComponent } from 'react'
-import styles from './styles'
+import styles from '../styles'
 
 interface INetworkCollapsedProps {
   x: number
@@ -14,7 +14,7 @@ class NetworkCollapsed extends PureComponent<INetworkCollapsedProps, {}> {
     const { x, y, width, height } = this.props
     return (
       <rect
-        className={css(styles.rect)}
+        className={css(styles.shape)}
         x={x} y={y} width={width} height={height} />
     )
   }

@@ -1,8 +1,9 @@
+import { Spinner } from '@blueprintjs/core'
 import React, { PureComponent } from 'react'
 import { graphql, QueryRenderer, ReadyState } from 'react-relay'
 import { RelayEnvContext } from '../../context'
-import { IKernel, INengoNetwork } from '../../types'
 import Ensemble from '../Ensemble'
+import Network from './Network'
 
 const query = graphql`
   subscription NetworkContentsSubscription($id: ID!) {
@@ -10,7 +11,8 @@ const query = graphql`
       node(id: $id) {
         ... on NengoNetwork {
           label,
-          ensembles { ...Ensemble_obj }
+          ensembles { id },
+          networks { id }
         },
         id
       }
@@ -20,12 +22,50 @@ const query = graphql`
 
 interface INetworkExpandedProps {
   id: string
-  label?: string
-  kernel?: IKernel<INengoNetwork>
+  x?: number
+  y?: number
+  width?: number
+  height?: number
+}
+
+interface INetworkExpandedSubscriptionProps {
+  kernel?: {
+    node: {
+      label: string,
+      ensembles: {id: string, label: string}[],
+      networks: {id: string}[],
+    },
+  }
 }
 
 class NetworkContents extends PureComponent<INetworkExpandedProps, {}> {
   static contextType = RelayEnvContext
+
+  static renderNetworkContents(
+      {props}: ReadyState<INetworkExpandedSubscriptionProps>,
+      positioning: INetworkExpandedProps) {
+    if (!props || !(props as INetworkExpandedSubscriptionProps).kernel) {
+      return <g><Spinner /></g>
+    }
+
+    const net = (props as INetworkExpandedSubscriptionProps).kernel!.node
+    const { x, y, width, height } = positioning
+    const bounds = {
+      maxX: (typeof x !== 'undefined' && typeof width !== 'undefined')
+        ? x + width : undefined,
+      maxY: (typeof y !== 'undefined' && typeof height !== 'undefined')
+        ? y + height : undefined,
+      minX: x,
+      minY: y,
+    }
+    return (
+      <g>
+        { net.ensembles.map((ens) => <Ensemble key={ens.id} {...bounds} />) }
+        { net.networks.map((subnet) => <Network
+          id={subnet.id} key={subnet.id} {...bounds} />) }
+      </g>
+    )
+  }
 
   render() {
     const { id } = this.props
@@ -34,25 +74,10 @@ class NetworkContents extends PureComponent<INetworkExpandedProps, {}> {
         environment={this.context}
         query={query}
         variables={{id}}
-        render={this.renderNetworkContents.bind(this)} />
-    )
-  }
-
-  renderNetworkContents({props}: ReadyState<INetworkExpandedProps>) {
-    if (!props || !props.kernel) {
-      return <text x='10' y='50' textAnchor='middle'>Loading sub</text>
-    }
-
-    const net = props.kernel.node
-    return (
-      <g>
-        {
-          (net.ensembles
-            ? net.ensembles.map((ens) => <Ensemble obj={ens} key={ens.id} />)
-            : <text x='10' y='50' textAnchor='middle'>Subload</text>)
-        }
-        <text x='10' y='100' textAnchor='middle'>{net.label}</text>
-      </g>
+        render={(readyState: ReadyState<INetworkExpandedSubscriptionProps>) => {
+          return NetworkContents.renderNetworkContents(readyState, this.props)
+        }}
+      />
     )
   }
 }

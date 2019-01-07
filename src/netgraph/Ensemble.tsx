@@ -1,22 +1,23 @@
+import { css } from 'aphrodite'
 import React, { PureComponent } from 'react'
-import { createFragmentContainer, graphql } from 'react-relay'
-import { INengoEnsemble } from '../types'
+import makePositionable, { IPositionableProps } from './makePositionable'
+import styles from './styles'
 
-interface IEnsembleProps {
-  obj: INengoEnsemble
+interface IEnsembleProps extends IPositionableProps {
 }
 
 class Ensemble extends PureComponent<IEnsembleProps, {}> {
   render() {
-    const { label } = this.props.obj
-    return <text x='10' y='10' textAnchor='middle'>{label}</text>
+    const { x, y, ...remainder } = this.props
+    const width = 20
+    const height = 20
+    const radius = Math.min(width, height)
+    return (
+      <g {...remainder} >
+        <circle className={css(styles.shape)} cx={x} cy={y} r={radius} />
+      </g>
+    )
   }
 }
 
-export default createFragmentContainer(Ensemble, {
-  obj: graphql`
-    fragment Ensemble_obj on NengoEnsemble {
-      label
-    }
-  `,
-})
+export default makePositionable(Ensemble)

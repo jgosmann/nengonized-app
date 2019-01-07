@@ -27,3 +27,15 @@ global.requestAnimationFrame = function (callback) {
 global.cancelAnimationFrame = function (id) {
   clearTimeout(id);
 };
+
+// https://github.com/palantir/blueprint/issues/397#issuecomment-275632153
+const keys = [
+  'DocumentFragment',
+  'Event',
+  'KeyboardEvent',
+  'MouseEvent'
+]
+keys.forEach((key) => {
+  global[key] = document.defaultView[key]
+})
+global.self = document.defaultView

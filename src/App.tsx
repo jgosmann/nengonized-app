@@ -1,3 +1,5 @@
+import { Spinner } from '@blueprintjs/core'
+import { css, StyleSheet } from 'aphrodite'
 import React, { PureComponent } from 'react'
 import { RelayEnvContext } from './context'
 import Netgraph from './netgraph/Netgraph'
@@ -35,11 +37,22 @@ class App extends PureComponent<{}, IAppState> {
         {
           (query_connection && subscription_connection)
             ? <Netgraph />
-            : <div>Waiting for connection</div>
+            : <Spinner intent='primary' className={css(styles.hvCenter)} />
         }
       </RelayEnvContext.Provider>
     )
   }
 }
+
+const styles = StyleSheet.create({
+  hvCenter: {
+    bottom: '50%',
+    left: '50%',
+    position: 'absolute',
+    right: '50%',
+    top: '50%',
+    transform: 'translate(-50%, -50%)',
+  },
+})
 
 export default App

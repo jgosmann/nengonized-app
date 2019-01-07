@@ -1,8 +1,9 @@
 import React, { PureComponent } from 'react'
+import makePositionable, { IPositionableProps } from '../makePositionable'
 import NetworkCollapsed from './NetworkCollapsed'
 import NetworkExpanded from './NetworkExpanded'
 
-interface INetworkProps {
+interface INetworkProps extends IPositionableProps {
   id: string
 }
 
@@ -36,15 +37,15 @@ class Network extends PureComponent<INetworkProps, State> {
   }
 
   render() {
+    const { id, x, y, ...remainder } = this.props
     return (
-      <g onClick={this.click.bind(this)}>{
+      <g onDoubleClick={this.click.bind(this)} {...remainder} >{
         this.state.collapsed
-          ? <NetworkCollapsed x={0} y={0} width={100} height={100} />
-          : <NetworkExpanded
-            id={this.props.id} x={0} y={0} width={100} height={100} />
+          ? <NetworkCollapsed x={x} y={y} width={100} height={100} />
+          : <NetworkExpanded id={id} x={x} y={y} width={100} height={100} />
       }</g>
     )
   }
 }
 
-export default Network
+export default makePositionable(Network)

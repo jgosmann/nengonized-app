@@ -1,21 +1,27 @@
+import { Spinner } from '@blueprintjs/core'
 import { css, StyleSheet } from 'aphrodite/no-important'
 import React, { PureComponent } from 'react'
 import { graphql, QueryRenderer, ReadyState } from 'react-relay'
 import environment from '../relay-env'
-import { IKernel, IRelayNode } from '../types'
-import Ensemble from './Ensemble'
-import Network from './network/Network'
+import NetworkContents from './network/NetworkContents'
 
 type SvgMouseEvent = React.MouseEvent<SVGSVGElement, MouseEvent>
 
 interface INetgraphProps {
-  kernel?: IKernel<IRelayNode>
+}
+
+interface INetgraphSubscriptionProps {
+  kernel?: {
+    model: {
+      id: string,
+    },
+  }
 }
 
 type State = typeof initialState
 
 const initialState = {
-  transform: [1, 0, 0, 1, 0, 0],
+  transform: [1, 0, 0, 1, 100, 100],
 }
 
 class Netgraph extends PureComponent<INetgraphProps, State> {
@@ -56,25 +62,21 @@ class Netgraph extends PureComponent<INetgraphProps, State> {
     return (
       <QueryRenderer
         environment={environment}
-        query={graphql`subscription NetgraphSubscription {
-          kernel { model {
-            ensembles { id, ...Ensemble_obj },
-            networks { id }
-          } }
-        }`}
+        query={graphql`
+          subscription NetgraphSubscription { kernel { model { id } } }
+        `}
         variables={{}}
         render={this.renderNetgraph.bind(this)} />
     )
   }
 
-  renderNetgraph({props}: ReadyState<INetgraphProps>) {
+  renderNetgraph({props}: ReadyState<INetgraphSubscriptionProps>) {
     if (!props || !props.kernel) {
       // TODO spinner or something
-      return <div>Loading...</div>
+      return <Spinner />
     }
 
     const { transform } = this.state
-    const { ensembles, networks } = props.kernel.model
     return (
       <svg
         className={css(styles.svg)}
@@ -84,8 +86,7 @@ class Netgraph extends PureComponent<INetgraphProps, State> {
         <g style={{
           transform: `matrix(${transform.join(',')})`,
         }}>
-          {ensembles.map((ens) => <Ensemble obj={ens} key={ens.id} />)}
-          {networks.map((net) => <Network id={net.id} key={net.id} />)}
+          <NetworkContents id={props.kernel.model.id} />
         </g>
       </svg>
     )
